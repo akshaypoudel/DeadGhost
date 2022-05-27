@@ -4852,8 +4852,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 6703589723540573964}
   projectileSpeed: 50
-  hitVfx: {fileID: 995666801351906514, guid: a10b862b09782c849be74f7f739e905f, type: 3}
+  hitVfx: {fileID: 995666801351906516, guid: a10b862b09782c849be74f7f739e905f, type: 3}
   groundHitSfx: {fileID: 8300000, guid: ed666941707abcc45af72541537cfcdc, type: 3}
+  damage: 10
+  enemyHitVFX: {fileID: 100002, guid: 872363974360b1540b92d8d9e0453afa, type: 3}
+  enemyHitSfx: {fileID: 8300000, guid: ed666941707abcc45af72541537cfcdc, type: 3}
 --- !u!54 &6703589723540573964
 Rigidbody:
   m_ObjectHideFlags: 0

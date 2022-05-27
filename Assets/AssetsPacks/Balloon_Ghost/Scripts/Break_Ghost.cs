@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Break_Ghost : MonoBehaviour
 {
-    public static bool Is_Breaked = false;
+    private bool Is_Breaked = false;
     public bool canPlayerBodyBreak = false;
     public GameObject ghost_normal;
     public GameObject ghost_Parts;
@@ -20,12 +20,11 @@ public class Break_Ghost : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Is_Breaked && gameObject.tag == "Enemy")
+        if(Is_Breaked)
         {
-            Is_Breaked = false;
             ghost_Parts.SetActive(true);
             ghost_normal.SetActive(false);
-            this.GetComponent<Enemy>().enabled = false;
+            Is_Breaked = false;
         }
         if(canPlayerBodyBreak)
         {
@@ -50,11 +49,5 @@ public class Break_Ghost : MonoBehaviour
             ghost.Play("attack");
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Projectile")
-        {
-            Is_Breaked = true;
-        }
-    }
+
 }

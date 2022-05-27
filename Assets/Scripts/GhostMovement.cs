@@ -11,7 +11,6 @@ public class GhostMovement : MonoBehaviour
     public Transform cam;
     public float minClampX,maxClampX,minClampZ,maxClampZ;
     private bool canRotate = true;
-    private int hitCount = 0;
 
     void Update()
     {

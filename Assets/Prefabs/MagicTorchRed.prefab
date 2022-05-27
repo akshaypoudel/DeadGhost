@@ -4932,6 +4932,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 8503583870897286391}
   projectileSpeed: 50
+  hitVfx: {fileID: 0}
+  groundHitSfx: {fileID: 0}
+  damage: 10
+  enemyHitVFX: {fileID: 0}
+  enemyHitSfx: {fileID: 0}
 --- !u!1 &3529033506527226901
 GameObject:
   m_ObjectHideFlags: 0

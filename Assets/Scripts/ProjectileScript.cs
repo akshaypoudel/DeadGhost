@@ -6,25 +6,39 @@ public class ProjectileScript : MonoBehaviour
 {
     public Rigidbody rb;
     public float projectileSpeed;
-    public ParticleSystem hitVfx;
+    public GameObject hitVfx;
     public static int hitCount;
     public AudioClip groundHitSfx;
+    public int damage;
+    public GameObject enemyHitVFX;
+    public AudioClip enemyHitSfx;
+    Enemy enemy;
 
 
 
     private void Start()
     {
-        hitCount = 0;
         rb.velocity = transform.forward * projectileSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if((other.gameObject.tag == "Destroyable" || other.gameObject.tag == "Enemy") && other.gameObject.tag != "Player")
+        if(other.gameObject.tag == "Destroyable" && other.gameObject.tag != "Player")
         {
-            Instantiate(hitVfx, transform.position,Quaternion.identity);
+            GameObject g = Instantiate(hitVfx, transform.position,Quaternion.identity);
             AudioSource.PlayClipAtPoint(groundHitSfx, transform.position);
-            Destroy(gameObject);
+            Destroy(this.gameObject,2f);
+            Destroy(g, 2f);
+
+
+        }
+        if (other.gameObject.tag == "Enemy")
+        {
+            AudioSource.PlayClipAtPoint(enemyHitSfx, transform.position);
+            Instantiate(enemyHitVFX, transform.position, Quaternion.identity);
+            Destroy(this.gameObject,2f);
+            enemy = other.transform.GetComponent<Enemy>();
+            enemy.TakeDamage(damage);
         }
     }
 }

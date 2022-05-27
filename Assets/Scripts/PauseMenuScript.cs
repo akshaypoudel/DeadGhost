@@ -14,6 +14,7 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject player;
     public GameObject cam;
     public Animator _animator;
+    public GameObject enemyPrefab;
     public void Resume()
     {
         PauseMenuUi.SetActive(false);
@@ -53,6 +54,7 @@ public class PauseMenuScript : MonoBehaviour
         player.GetComponent<ShootProjectile>().enabled = _isTrue;
         player.GetComponent<CharacterController>().enabled = _isTrue;
         _animator.enabled = _isTrue;
+        //enemyPrefab.GetComponent<Enemy>().enabled = _isTrue;
         cam.SetActive(_isTrue);
     }
 

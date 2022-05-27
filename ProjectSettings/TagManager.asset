@@ -8,6 +8,8 @@ TagManager:
   - Destroyable
   - Enemy
   - Projectile
+  - FxTemporaire
+  - NotEnemy
   layers:
   - Default
   - TransparentFX

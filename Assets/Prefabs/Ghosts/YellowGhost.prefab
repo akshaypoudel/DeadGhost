@@ -159,9 +159,11 @@ GameObject:
   - component: {fileID: 2335105493348457568}
   - component: {fileID: 4351704977096369479}
   - component: {fileID: 4351704977096369476}
+  - component: {fileID: 840101909}
+  - component: {fileID: 2141172834}
   m_Layer: 0
-  m_Name: Enemy Ghost
-  m_TagString: Untagged
+  m_Name: YellowGhost
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -195,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7542a2d6b565e45b761ecf4ebe646d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Is_Breaked: 0
+  canPlayerBodyBreak: 0
   ghost_normal: {fileID: 2335105493600395008}
   ghost_Parts: {fileID: 2335105494154035018}
   ghost: {fileID: 2335105493898912381}
@@ -227,9 +229,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd8245dc094e0d49830d4d7b7cc04d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   body: {fileID: 4351704977096369479}
   ghostMoveSpeed: 2
+  health: 30
+  collider1st: {fileID: 840101909, guid: 589bd85b0bb8e774aa07ee42a8481f24, type: 3}
+  collider2nd: {fileID: 2141172834, guid: 589bd85b0bb8e774aa07ee42a8481f24, type: 3}
+--- !u!65 &840101909
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2335105493348457574}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.444616, y: 8.478359, z: 2.2832937}
+  m_Center: {x: 0.25050282, y: -0.5494974, z: -0.01}
+--- !u!65 &2141172834
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2335105493348457574}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.444616, y: 8.478359, z: 2.2832937}
+  m_Center: {x: 0.25050282, y: -0.5494974, z: -0.01}
 --- !u!1 &2335105493600395008
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +528,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f73e2a4e08809144b8ce20bce7455620, type: 2}
+  - {fileID: 2100000, guid: c9bafc3a54141bb4fa172ea4a3af3fd6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

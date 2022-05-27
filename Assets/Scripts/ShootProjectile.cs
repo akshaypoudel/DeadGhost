@@ -16,6 +16,10 @@ public class ShootProjectile : MonoBehaviour
     [SerializeField] private GhostMovement characterMovement;
     [SerializeField] private LayerMask layerMask = new LayerMask();
     [SerializeField] private AudioClip gunFireAudio;
+    [SerializeField] private float impactForce;
+    [SerializeField] private int damage;
+    [SerializeField] private GameObject enemyHitVFX;
+
 
 
     private Vector3 mouseWorldPos;
@@ -64,13 +68,13 @@ public class ShootProjectile : MonoBehaviour
         {
             mouseWorldPos = hit.point;
         }
-        InstantiateProjectile(firePoint.position);
+        InstantiateProjectile();
     }
-    private void InstantiateProjectile(Vector3 Firepnt)
+    private void InstantiateProjectile()
     {
-        Vector3 aimDirection = (mouseWorldPos - Firepnt).normalized;
-        Instantiate(projectile, Firepnt , Quaternion.LookRotation(aimDirection,Vector3.up));
         AudioSource.PlayClipAtPoint(gunFireAudio, transform.position);
+        Vector3 aimDirection = (mouseWorldPos - firePoint.position).normalized;
+        Instantiate(projectile, firePoint.position, Quaternion.LookRotation(aimDirection,Vector3.up));
    
     }
     private void Aim()
@@ -81,7 +85,6 @@ public class ShootProjectile : MonoBehaviour
         characterMovement.SetRotateOnMove(false);
         AimRotationHandler();
         RotatePlayerInTheAimDirection();
-        //ResetAimingCameraDirection();
     }
     private void AimRotationHandler()
     {
@@ -109,13 +112,13 @@ public class ShootProjectile : MonoBehaviour
         crosshair.SetActive(false);
         characterMovement.SetRotateOnMove(true);
         canResetAimCamera = true;
-        //ResetAimingCameraDirection();
     }
     
     private void ResetAimingCameraDirection()
     {
         aimCinemachineCam.m_XAxis.Value = mainCinemachineCam.m_XAxis.Value;
         aimCinemachineCam.m_YAxis.Value = mainCinemachineCam.m_YAxis.Value;
+
 
     }
 }
