@@ -15,7 +15,6 @@ public class ProjectileScript : MonoBehaviour
     Enemy enemy;
 
 
-
     private void Start()
     {
         rb.velocity = transform.forward * projectileSpeed;
@@ -29,16 +28,16 @@ public class ProjectileScript : MonoBehaviour
             AudioSource.PlayClipAtPoint(groundHitSfx, transform.position);
             Destroy(this.gameObject,2f);
             Destroy(g, 2f);
-
-
         }
         if (other.gameObject.tag == "Enemy")
         {
             AudioSource.PlayClipAtPoint(enemyHitSfx, transform.position);
             Instantiate(enemyHitVFX, transform.position, Quaternion.identity);
-            Destroy(this.gameObject,2f);
+            Destroy(this.gameObject, 2f);
             enemy = other.transform.GetComponent<Enemy>();
             enemy.TakeDamage(damage);
         }
     }
+
+    
 }

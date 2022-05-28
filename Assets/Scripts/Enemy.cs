@@ -1,21 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 public class Enemy : MonoBehaviour
 {
     private Transform player;
-    public Rigidbody body;  
-    public float ghostMoveSpeed;
+   // public float ghostMoveSpeed;
     public float health = 50f;
     private float currenthealth;
     Break_Ghost breakGhost;
-    public BoxCollider collider1st;
-    public BoxCollider collider2nd;
+    public GameObject projectile;
+    public NavMeshAgent agent;
+    public LayerMask whatIsPlayer = new LayerMask();
+    private float timeBetweenAttacks = 1f;
+    private bool alreadyAttacked;
+    private float projectileForce = 20f;
+
+
+    private float attackRange;
+    private bool playerInAttackRange;
+
 
     private void Start()
     {
         currenthealth = health;
+        attackRange = agent.stoppingDistance;
         player = GameObject.Find("Player").transform;
     }
     void Update()
@@ -25,10 +36,41 @@ public class Enemy : MonoBehaviour
 
     private void MoveEnemyTowardsPlayer()
     {
-        Vector3 pos = Vector3.MoveTowards(transform.position, player.position, ghostMoveSpeed * Time.deltaTime);
-        body.MovePosition(pos);
+        agent.SetDestination(player.position);
+        agent.transform.position = new Vector3(agent.transform.position.x, 
+                                               player.position.y-0.3f, 
+                                               agent.transform.position.z);
         transform.LookAt(player);
+
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+        if(playerInAttackRange)
+        {
+            AttackPlayer();
+        }
+        
     }
+
+    private void AttackPlayer()
+    {
+        agent.SetDestination(transform.position);
+        transform.LookAt(player);
+        if (!alreadyAttacked)
+        {
+            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * projectileForce, ForceMode.Impulse);
+
+            alreadyAttacked = true;
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+        }
+
+    }
+
+    private void ResetAttack()
+    {
+        alreadyAttacked = false;
+    }
+
     public void TakeDamage(float damage)
     {
         currenthealth -= damage;
@@ -43,9 +85,9 @@ public class Enemy : MonoBehaviour
         this.gameObject.tag = "NotEnemy";
         breakGhost = this.gameObject.GetComponent<Break_Ghost>();
         breakGhost.break_Ghost();
-        collider1st.enabled = false;
-        collider2nd.enabled = false;
         currenthealth = health;
+        this.gameObject.GetComponent<Enemy>().enabled = false;
+        this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
         Destroy(this.gameObject,3f);
     }
 }

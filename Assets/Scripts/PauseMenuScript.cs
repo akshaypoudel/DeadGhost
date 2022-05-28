@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -14,11 +15,11 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject player;
     public GameObject cam;
     public Animator _animator;
-    public GameObject enemyPrefab;
+    private GameObject[] ghostObjects;
     public void Resume()
     {
-        PauseMenuUi.SetActive(false);
         Time.timeScale = 1f;
+        PauseMenuUi.SetActive(false);
         DisableOrEnableComponents(true);
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -43,7 +44,6 @@ public class PauseMenuScript : MonoBehaviour
     }
     public void Pause()
     {
-        //Time.timeScale = 0f;
         PauseMenuUi.SetActive(true);
         DisableOrEnableComponents(false);
     }
@@ -54,7 +54,13 @@ public class PauseMenuScript : MonoBehaviour
         player.GetComponent<ShootProjectile>().enabled = _isTrue;
         player.GetComponent<CharacterController>().enabled = _isTrue;
         _animator.enabled = _isTrue;
-        //enemyPrefab.GetComponent<Enemy>().enabled = _isTrue;
+
+        ghostObjects = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject go in ghostObjects)
+        {
+            go.GetComponent<NavMeshAgent>().enabled = _isTrue;
+            go.GetComponent<Enemy>().enabled = _isTrue;
+        }
         cam.SetActive(_isTrue);
     }
 

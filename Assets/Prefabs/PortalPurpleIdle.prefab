@@ -4857,6 +4857,9 @@ MonoBehaviour:
   damage: 10
   enemyHitVFX: {fileID: 100002, guid: 872363974360b1540b92d8d9e0453afa, type: 3}
   enemyHitSfx: {fileID: 8300000, guid: ed666941707abcc45af72541537cfcdc, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!54 &6703589723540573964
 Rigidbody:
   m_ObjectHideFlags: 0
