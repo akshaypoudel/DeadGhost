@@ -7,25 +7,26 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     private Transform player;
-   // public float ghostMoveSpeed;
-    public float health = 50f;
     private float currenthealth;
     Break_Ghost breakGhost;
     public GameObject projectile;
     public NavMeshAgent agent;
     public LayerMask whatIsPlayer = new LayerMask();
     private float timeBetweenAttacks = 1f;
+    public static int damageToPlayer = 5;
     private bool alreadyAttacked;
     private float projectileForce = 20f;
-
+    public Transform FirePoint;
+    public GameObject enemySphere;
 
     private float attackRange;
     private bool playerInAttackRange;
 
 
+
     private void Start()
     {
-        currenthealth = health;
+        currenthealth = WaveSpawner.enemyHealth;
         attackRange = agent.stoppingDistance;
         player = GameObject.Find("Player").transform;
     }
@@ -43,13 +44,13 @@ public class Enemy : MonoBehaviour
         transform.LookAt(player);
 
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if(playerInAttackRange)
+    
+        if (playerInAttackRange)
         {
             AttackPlayer();
         }
-        
     }
+
 
     private void AttackPlayer()
     {
@@ -57,9 +58,10 @@ public class Enemy : MonoBehaviour
         transform.LookAt(player);
         if (!alreadyAttacked)
         {
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+            Rigidbody rb = Instantiate(projectile, FirePoint.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * projectileForce, ForceMode.Impulse);
-
+            Destroy(rb.gameObject,3f);
+            
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -81,11 +83,12 @@ public class Enemy : MonoBehaviour
     }
     public void Die()
     {
+        enemySphere.SetActive(false);
         KilledEnemies.currentEnemies--;
         this.gameObject.tag = "NotEnemy";
         breakGhost = this.gameObject.GetComponent<Break_Ghost>();
         breakGhost.break_Ghost();
-        currenthealth = health;
+        currenthealth = WaveSpawner.enemyHealth;
         this.gameObject.GetComponent<Enemy>().enabled = false;
         this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
         Destroy(this.gameObject,3f);

@@ -8,15 +8,23 @@ public class GhostMovement : MonoBehaviour
     public CharacterController characterController;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+    [SerializeField]private ParticleSystem playerHitVfx;
     public Transform cam;
     public float minClampX,maxClampX,minClampZ,maxClampZ;
     private bool canRotate = true;
+    private PlayerHealth health;
+
+    private void Start()
+    {
+        health = GetComponent<PlayerHealth>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     void Update()
     {
-        MoveCharacter();
         CheckIfPressingShiftButton();
-        Cursor.lockState = CursorLockMode.Locked;
+        MoveCharacter();
     }
     private void CheckIfPressingShiftButton()
     {
@@ -39,18 +47,18 @@ public class GhostMovement : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-        if(direction.magnitude >= 0.1f)
+        if (direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +cam.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            
-            if(canRotate)
+
+            if (canRotate)
             {
-                transform.rotation = Quaternion.Euler(0f,angle, 0f);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            characterController.Move(moveDir.normalized*speed*Time.deltaTime);
+            characterController.Move(moveDir.normalized * speed * Time.deltaTime);
 
         }
         transform.position = new Vector3(
@@ -62,5 +70,15 @@ public class GhostMovement : MonoBehaviour
     public void SetRotateOnMove(bool rotation)
     {
         canRotate = rotation;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "EnemyProjectile")
+        {
+            playerHitVfx.Play();
+            health.DamagePlayer(Enemy.damageToPlayer);
+            Destroy(other.gameObject);
+        }
     }
 }

@@ -10,6 +10,8 @@ TagManager:
   - Projectile
   - FxTemporaire
   - NotEnemy
+  - EnemyProjectile
+  - HealthPickup
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Objects
-  - 
+  - NewGround
   - 
   - 
   - 

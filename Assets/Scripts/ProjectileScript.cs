@@ -9,7 +9,6 @@ public class ProjectileScript : MonoBehaviour
     public GameObject hitVfx;
     public static int hitCount;
     public AudioClip groundHitSfx;
-    public int damage;
     public GameObject enemyHitVFX;
     public AudioClip enemyHitSfx;
     Enemy enemy;
@@ -33,9 +32,9 @@ public class ProjectileScript : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(enemyHitSfx, transform.position);
             Instantiate(enemyHitVFX, transform.position, Quaternion.identity);
-            Destroy(this.gameObject, 2f);
+            Destroy(this.gameObject);
             enemy = other.transform.GetComponent<Enemy>();
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(PlayerHealth.damageToEnemy);
         }
     }
 

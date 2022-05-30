@@ -16,8 +16,6 @@ public class ShootProjectile : MonoBehaviour
     [SerializeField] private GhostMovement characterMovement;
     [SerializeField] private LayerMask layerMask = new LayerMask();
     [SerializeField] private AudioClip gunFireAudio;
-    [SerializeField] private float impactForce;
-    [SerializeField] private int damage;
     [SerializeField] private GameObject enemyHitVFX;
 
 
@@ -74,7 +72,7 @@ public class ShootProjectile : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(gunFireAudio, transform.position);
         Vector3 aimDirection = (mouseWorldPos - firePoint.position).normalized;
-        Instantiate(projectile, firePoint.position, Quaternion.LookRotation(aimDirection,Vector3.up));
+        Instantiate(projectile,firePoint.position, Quaternion.LookRotation(aimDirection,Vector3.up));
    
     }
     private void Aim()
@@ -118,7 +116,5 @@ public class ShootProjectile : MonoBehaviour
     {
         aimCinemachineCam.m_XAxis.Value = mainCinemachineCam.m_XAxis.Value;
         aimCinemachineCam.m_YAxis.Value = mainCinemachineCam.m_YAxis.Value;
-
-
     }
 }

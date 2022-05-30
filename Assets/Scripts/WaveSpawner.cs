@@ -8,14 +8,17 @@ public class WaveSpawner : MonoBehaviour
 {
     [SerializeField] private Wave[] wave;
     [SerializeField] private Transform[] spawnPoints;
+    public GameObject player;
 
 
     public TMP_Text waveName;
     public TMP_Text countDown;
     public TMP_Text waveFinished;
-    public TMP_Text gameFinished;
     public TMP_Text enemiesLeft;
     public TMP_Text TimerText;
+    public GameObject gameFinishedPanel;
+
+    public static int enemyHealth;
 
     public GameObject enemiesLeftGameObject;
 
@@ -36,6 +39,7 @@ public class WaveSpawner : MonoBehaviour
         currentTime = 6f;
         KilledEnemies.currentEnemies = wave[0].numberOfEnemies;
         enemiesLeft.text = KilledEnemies.currentEnemies.ToString();
+        enemyHealth = 30;
     }
 
     private void Update()
@@ -62,10 +66,12 @@ public class WaveSpawner : MonoBehaviour
 
     private void GameFinished()
     {
-        gameFinished.gameObject.SetActive(true);
-        waveName.gameObject.SetActive(false);
-        enemiesLeft.gameObject.SetActive(false);
-        enemiesLeftGameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        enemyHealth = 30;
+        Enemy.damageToPlayer = 5;
+        gameFinishedPanel.SetActive(true);
+        Destroy(player.gameObject);
+        Destroy(this.gameObject);
     }
 
     private void SetupBeforeCountdown()
@@ -94,7 +100,15 @@ public class WaveSpawner : MonoBehaviour
         isSetup = false;
         isTimerActive = true;
         currentTime = 6f;
+        Enemy.damageToPlayer = wave[currentWaveIndex].damageToPlayer;
+        SetEnemyHealth();
     }
+
+    public void SetEnemyHealth()
+    {
+        enemyHealth = wave[currentWaveIndex].enemyHealth;
+    }
+
     private void StartCountdown()
     {
         if (isTimerActive)
@@ -132,6 +146,8 @@ public class Wave
 {
     public string waveName;
     public int numberOfEnemies;
+    public int damageToPlayer;
+    public int enemyHealth;
     public GameObject[] typeOfEnemies;
     public float spawnInterval;
 }
