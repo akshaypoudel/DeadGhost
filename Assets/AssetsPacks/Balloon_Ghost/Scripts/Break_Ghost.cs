@@ -36,18 +36,5 @@ public class Break_Ghost : MonoBehaviour
     {
         Is_Breaked = true;
     }
-    public void play_anim()
-    {
-        counter += 1;
-        if(counter == 2)
-        {
-            counter = 0;
-            ghost.Play("idle");
-        }
-        else
-        {
-            ghost.Play("attack");
-        }
-    }
 
 }

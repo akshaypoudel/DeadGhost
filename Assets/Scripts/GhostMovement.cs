@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GhostMovement : MonoBehaviour
 {
-    public float speed;
-    public CharacterController characterController;
-    public float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
+    [SerializeField]private float speed;
+    [SerializeField]private CharacterController characterController;
+    private float turnSmoothTime = 0.1f;
+    private float turnSmoothVelocity;
     [SerializeField]private ParticleSystem playerHitVfx;
-    public Transform cam;
-    public float minClampX,maxClampX,minClampZ,maxClampZ;
+    [SerializeField]private Transform cam;
+    [SerializeField]private float minClampX,maxClampX,minClampZ,maxClampZ;
     private bool canRotate = true;
     private PlayerHealth health;
 
@@ -23,6 +23,8 @@ public class GhostMovement : MonoBehaviour
 
     void Update()
     {
+        transform.Rotate(0f, 0f, 0f);
+
         CheckIfPressingShiftButton();
         MoveCharacter();
     }

@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     private float projectileForce = 20f;
     public Transform FirePoint;
     public GameObject enemySphere;
+    public GameObject enemyGlowEffect;
 
     private float attackRange;
     private bool playerInAttackRange;
@@ -84,6 +85,7 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         enemySphere.SetActive(false);
+        enemyGlowEffect.SetActive(false);
         KilledEnemies.currentEnemies--;
         this.gameObject.tag = "NotEnemy";
         breakGhost = this.gameObject.GetComponent<Break_Ghost>();

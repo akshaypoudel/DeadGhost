@@ -13,11 +13,14 @@ public class ProjectileScript : MonoBehaviour
     public AudioClip enemyHitSfx;
     Enemy enemy;
 
-
     private void Start()
     {
         rb.velocity = transform.forward * projectileSpeed;
     }
+
+
+
+
 
     private void OnTriggerEnter(Collider other)
     {

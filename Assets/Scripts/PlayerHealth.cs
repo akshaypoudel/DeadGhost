@@ -87,11 +87,15 @@ public class PlayerHealth : MonoBehaviour
         invincibleTimerSlider.gameObject.SetActive(true);
         PlayerHealth.damageToEnemy = 100;
         invincibleVFX.Play();
+
         yield return new WaitForSeconds(invincibilityTime);
+
         isInvincible = false;
         invincibleVFX.Stop();
         PlayerHealth.damageToEnemy = 10;
+
         yield return new WaitForSeconds(3f);
+
         invincibleTimerSlider.gameObject.SetActive(false);
         invincibleTimerSlider.value = invincibilityTime;
         time = invincibilityTime;

@@ -9,10 +9,12 @@ public class HealthPickup : MonoBehaviour
     public Slider healthSlider;
     public GameObject healthPickup;
     public float timeToWaitBeforeNextHealthPickup;
+    public AudioClip consumeSFX;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player" && healthSlider.value != 1) 
         {
+            AudioSource.PlayClipAtPoint(consumeSFX,transform.position);
             GiveFullHealthToPlayer();
         }
     }

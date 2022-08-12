@@ -34,11 +34,6 @@ public class ShootProjectile : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            if (canResetAimCamera)
-            {
-                ResetAimingCameraDirection();
-                canResetAimCamera = false;
-            }
             Aim();
         }
         else
@@ -58,46 +53,43 @@ public class ShootProjectile : MonoBehaviour
 
     private void Shoot()
     {
-        characterMovement.SetRotateOnMove(true);
-
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
+        Vector2 screenCenterPoint = new Vector2(Input.mousePosition.x,Input.mousePosition.y);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit hit,Range,layerMask))
         {
-            mouseWorldPos = hit.point;
+            InstantiateProjectile(hit.point);
         }
-        InstantiateProjectile();
     }
-    private void InstantiateProjectile()
+    private void InstantiateProjectile(Vector3 Pos)
     {
         AudioSource.PlayClipAtPoint(gunFireAudio, transform.position);
-        Vector3 aimDirection = (mouseWorldPos - firePoint.position).normalized;
+        Vector3 aimDirection = (Pos - firePoint.position);
         Instantiate(projectile,firePoint.position, Quaternion.LookRotation(aimDirection,Vector3.up));
-   
     }
     private void Aim()
     {
+        characterMovement.SetRotateOnMove(false);
         canShootProjectile = true;
         aimCinemachineCam.gameObject.SetActive(true);
         crosshair.SetActive(true);
-        characterMovement.SetRotateOnMove(false);
         AimRotationHandler();
-        RotatePlayerInTheAimDirection();
     }
     private void AimRotationHandler()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width/2f,Screen.height/2f);
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         RaycastHit hit;
+        Vector3 newDir= Vector3.zero;
         if (Physics.Raycast(ray, out hit, Range, layerMask))
         {
-            mouseWorldPos = hit.point;
+            newDir = hit.point;
         }
+        RotatePlayerInTheAimDirection(newDir);
     }
 
-    private void RotatePlayerInTheAimDirection()
+    private void RotatePlayerInTheAimDirection(Vector3 mouseWorldPos1)
     {
-        Vector3 worldAimTarget = mouseWorldPos;
+        Vector3 worldAimTarget = mouseWorldPos1;
         worldAimTarget.y = transform.position.y;
         Vector3 aimDirection = (worldAimTarget  - transform.position).normalized;
         transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
